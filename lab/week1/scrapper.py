@@ -15,17 +15,7 @@ OUTPUT_CSV = 'tvseries.csv'
 
 
 def extract_tvseries(dom):
-    '''
-    Extract a list of highest rated TV series from DOM (of IMDB page).
-
-    Each TV series entry should contain the following fields:
-    - TV Title
-    - Rating
-    - Genres (comma separated if more than one)
-    - Actors/actresses (comma separated if more than one)
-    - Runtime (only a number!)
-    '''
-
+    # Extract a list of highest rated TV series from DOM (of IMDB page).
     # create empty array to save list of arrays
     tv_series = []
 
@@ -33,7 +23,7 @@ def extract_tvseries(dom):
     for item in dom.body.by_class("lister-item mode-advanced"):
         raw_text = item
 
-        # search for title by tagname
+        # search for title by tagname a
         title = raw_text.get_elements_by_tagname("a")[1].content.encode('utf8')
 
         # search for rating by tagname strong
@@ -42,7 +32,7 @@ def extract_tvseries(dom):
         # search for genre and clean the string
         genre = str(raw_text.get_elements_by_classname("genre")[0].content.encode('utf8'))
 
-        # cleans leading blank line
+        # cleans leading blank line, inspiration from:
         # http://stackoverflow.com/questions/1140958/whats-a-quick-one-liner-to-remove-empty-lines-from-a-python-string
         genre = os.linesep.join([s for s in genre.splitlines() if s])
 
@@ -74,9 +64,8 @@ def extract_tvseries(dom):
 
 
 def save_csv(f, tvseries):
-    '''
-    Output a CSV file containing highest rated TV-series.
-    '''
+
+    # output a CSV file containing highest rated TV-series.
     writer = csv.writer(f)
     writer.writerow(['Title', 'Rating', 'Genre', 'Actors', 'Runtime'])
 
