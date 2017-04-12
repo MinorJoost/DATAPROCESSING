@@ -1,0 +1,194 @@
+<!DOCTYPE HTML>
+<html>
+
+<style>
+.hidden {
+    display: none;
+}
+</style>
+
+<head>
+
+<script type="text/javascript">
+	
+// create function to start whole script when page is loaded
+function onStart()
+{
+	// start xmlhttp request
+	var xhttp = new XMLHttpRequest();
+
+	// when ready with xmlhttp continue
+	xhttp.onreadystatechange = function() 
+	{
+		if (this.readyState == 4 && this.status == 200) 
+	    {
+		    // fill  textarea with the loaded in values
+		    document.getElementById("rawdata").value = new String(this.responseText);
+
+		    var array = []
+			var rawData = this.response;
+
+			// clean data and strip last useless element
+			array = String(rawData.split("\n")).split(",");
+			array = array.slice(0,-1);
+
+			datesArray = []
+			valuesArray = []
+
+			// read in values and dates from cluttered array
+			for (var i = 0; i < (array.length/2); i++)
+			{
+				// get dates
+				var dateString = String(array[i * 2]);
+				var year = dateString.substring(0,4);
+				var month = dateString.substring(4,6);
+				var day = dateString.substring(6,8);
+				var date = new Date(year, month-1, day);
+
+				// change dates to milliseconds from 1970
+				datesArray[i] = date.getTime();
+				valuesArray[i] = Number(array[i * 2 + 1])
+			}
+
+			// get the ranges of both dates as values
+			var datesRange = [datesArray[0],datesArray[364]];
+			var valuesRange = [Math.min.apply(null,valuesArray),Math.max.apply(null,valuesArray)];
+
+			imgWidthRange = [0,document.getElementById("myCanvas").width];
+			imgHeightRange = [0,document.getElementById("myCanvas").height];
+
+			// initialize transformation function
+			function createTransform(domain, range)
+			{
+			    var domain_min = domain[0]
+			    var domain_max = domain[1]
+			    var range_min = range[0]
+			    var range_max = range[1]
+
+			    // formulas to calculate the alpha and the beta
+			   	var alpha = (range_max - range_min) / (domain_max - domain_min)
+			    var beta = range_max - alpha * domain_max
+			    // returns the function for the linear transformation (y= a * x + b)
+			    return function(x)
+			    {
+			      return alpha * x + beta;
+			    }
+			}
+
+			// functions for transformin values and dates
+			valuesTransform = createTransform(valuesRange,imgHeightRange);
+			datesTransform = createTransform(datesRange,imgWidthRange);
+	
+			months = ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December", "2010"]
+			var valuesScaled = valuesArray;
+			var datesScaled = datesArray;
+
+			// get scaled arrays
+			for (var i = 0; i < valuesArray.length; i++) {
+				valuesScaled[i] = valuesTransform(valuesArray[i])
+				datesScaled[i] = datesTransform(datesArray[i])
+			}
+
+			// initialize the canvas element
+			var graph = document.getElementById("myCanvas");
+			var ctx = graph.getContext("2d");
+
+			// use margins to create space for axis
+			// use scalefactor to resize the plot
+			var xMargin = 44;
+			var yMargin = 44;
+			var scaleFactor = 0.85;
+
+			ctx.beginPath();
+			ctx.moveTo(datesScaled[0]+xMargin, scaleFactor*(graph.height - valuesScaled[0] + yMargin));
+
+			// draw the line of the graph
+			for (var i = 1; i < valuesScaled.length; i++) {
+				ctx.lineTo(scaleFactor*(datesScaled[i]+xMargin), scaleFactor*(graph.height - valuesScaled[i] + yMargin));
+				ctx.moveTo(scaleFactor*(datesScaled[i]+xMargin), scaleFactor*(graph.height - valuesScaled[i] + yMargin));
+			}
+			ctx.stroke();
+
+			// declaring variables that will be used to draw remaining of graph
+			var maxValScaled = valuesTransform(valuesRange[1])
+			var minValScaled = valuesTransform(valuesRange[0])
+			var scaledHeight = maxValScaled - minValScaled;
+
+			var maxValue = valuesRange[1]/10;
+			var minValue = valuesRange[0]/10;
+			var scaledWidth = datesScaled[364] - datesScaled[0];
+			var nrMonths = 12;
+
+			var jumpSize = 2;
+			var datesScale = scaledWidth / nrMonths;
+			var valuesScale = scaledHeight / (maxValue - minValue);
+
+			// changing axis colours to blue
+			ctx.font = "18 pt Arial"
+			ctx.strokeStyle="#6666b2";
+
+			// print axis values to axis
+			ctx.beginPath();
+				// print Parameters on X axis
+				for (var i = 0; i <= nrMonths; i++)
+				{
+					var xLocation = scaleFactor * (i * (datesScale ));
+					ctx.fillText(months[i], xLocation - 7 + xMargin ,scaledHeight - 24 );
+					ctx.fillText('|', xLocation - 7 + xMargin,scaledHeight - 34);	
+				}
+
+				for (var i = -8; i <= Math.ceil(valuesRange[1]*0.1); i++)
+				{
+					if (i % jumpSize == 0)
+					{
+						var yLocation = scaleFactor * ((i + 8) * valuesScale);
+						ctx.fillText( i, imgWidthRange[0]+25, scaledHeight - yLocation - yMargin);
+						ctx.fillText('___', imgWidthRange[0] + 23, scaledHeight - yLocation - yMargin);
+					}	
+				}
+				
+			// draw both axis
+			ctx.moveTo(imgWidthRange[1]-xMargin, scaledHeight-40);
+			ctx.lineTo(imgWidthRange[0]+xMargin-6, scaledHeight-40);
+			ctx.lineTo(imgWidthRange[0]+xMargin-6, scaledHeight - imgWidthRange[1])
+			ctx.stroke();
+
+			// add title and axis titles
+			ctx.font = "25px Arial";
+			ctx.textAlign = "left";
+			ctx.fillText("Average Temperatures in De Bilt (2009)", scaleFactor*(datesScale*3.5), 25);
+			ctx.font = "22px Arial";
+			ctx.textAlign = "center";
+			ctx.fillText("Month", scaleFactor*(datesScale*7), scaledHeight)
+			ctx.textAlign = "center";
+			ctx.rotate(-Math.PI/2);
+			ctx.fillText("Temperature in °C", -300, 16);
+	    };
+	};
+	xhttp.open("GET", "https://raw.githubusercontent.com/MinorJoost/DATAPROCESSING/master/lab/week2/data.csv", true);
+	xhttp.send();
+};
+</script>
+</head>
+
+<body onload="onStart()")">
+  <canvas id="myCanvas" width="750" height="600" style="position: absolute;
+														margin-left: auto;
+														margin-right: auto;
+														left: 0;
+														right: 0;"></canvas>
+
+  <textarea id="rawdata" class="hidden"></textarea>
+
+  <p>Joost Kooijman<br>
+   10760768<br>
+   line graph<br><br>
+
+   data source:<br>
+   <a href="https://raw.githubusercontent.com/MinorJoost/DATAPROCESSING/master/lab/week2/data.csv">raw csv</a><br><br>
+
+   <a href="interactive.html">Interactive plot</a></p>
+
+</body>
+
+</html>
