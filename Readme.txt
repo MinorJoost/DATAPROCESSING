@@ -1,1 +1,1 @@
-Map voor dataprocessing
+https://github.com/MinorJoost/DATAPROCESSING/tree/master/lab/week2
