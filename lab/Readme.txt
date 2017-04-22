@@ -1,2 +1,1 @@
-Map voor dataprocessing
-folder lab
+link: https://minorjoost.github.io/DATAPROCESSING/
