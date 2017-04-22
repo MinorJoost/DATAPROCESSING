@@ -1,1 +1,1 @@
-https://github.com/MinorJoost/DATAPROCESSING/tree/master/lab/week3
+link: https://minorjoost.github.io/DATAPROCESSING
