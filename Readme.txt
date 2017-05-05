@@ -1,1 +1,1 @@
-https://minorjoost.github.io/DATAPROCESSING/
+https://minorjoost.github.io/index.html
