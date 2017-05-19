@@ -1,0 +1,219 @@
+{
+   "AUT": {
+      "Country": "Austria",
+      "GDP": 322539,
+      "Export": 171566,
+      "Import": 163239,
+      "Year": 2013
+   },
+   "BEL": {
+      "Country": "Belgium",
+      "GDP": 391731,
+      "Export": 320461,
+      "Import": 315988,
+      "Year": 2013
+   },
+   "BGR": {
+      "Country": "Bulgaria",
+      "GDP": 42012,
+      "Export": 27162,
+      "Import": 27334,
+      "Year": 2013
+   },
+   "CHE": {
+      "Country": "Switzerland",
+      "GDP": 515617,
+      "Export": 372822,
+      "Import": 310362,
+      "Year": 2013
+   },
+   "CYP": {
+      "Country": "Cyprus",
+      "GDP": 18118,
+      "Export": 10639,
+      "Import": 10308,
+      "Year": 2013
+   },
+   "CZE": {
+      "Country": "Czech Republic",
+      "GDP": 157742,
+      "Export": 121258,
+      "Import": 112166,
+      "Year": 2013
+   },
+   "DEU": {
+      "Country": "Germany (until 1990 former territory of the FRG)",
+      "GDP": 2826240,
+      "Export": 1284744,
+      "Import": 1116353,
+      "Year": 2013
+   },
+   "DNK": {
+      "Country": "Denmark",
+      "GDP": 258743,
+      "Export": 141866,
+      "Import": 124769,
+      "Year": 2013
+   },
+   "ESP": {
+      "Country": "Spain",
+      "GDP": 1025634,
+      "Export": 330453,
+      "Import": 297062,
+      "Year": 2013
+   },
+   "EST": {
+      "Country": "Estonia",
+      "GDP": 18890,
+      "Export": 15956,
+      "Import": 15591,
+      "Year": 2013
+   },
+   "FIN": {
+      "Country": "Finland",
+      "GDP": 203338,
+      "Export": 78924,
+      "Import": 80724,
+      "Year": 2013
+   },
+   "FRA": {
+      "Country": "France",
+      "GDP": 2115256,
+      "Export": 605134,
+      "Import": 644957,
+      "Year": 2013
+   },
+   "GBR": {
+      "Country": "United Kingdom",
+      "GDP": 2048328,
+      "Export": 609521,
+      "Import": 655724,
+      "Year": 2013
+   },
+   "GRC": {
+      "Country": "Greece",
+      "GDP": 180654,
+      "Export": 54835,
+      "Import": 59915,
+      "Year": 2013
+   },
+   "HUN": {
+      "Country": "Hungary",
+      "GDP": 101483,
+      "Export": 87275,
+      "Import": 80169,
+      "Year": 2013
+   },
+   "IRL": {
+      "Country": "Ireland",
+      "GDP": 180209,
+      "Export": 191183,
+      "Import": 157314,
+      "Year": 2013
+   },
+   "ISL": {
+      "Country": "Iceland",
+      "GDP": 11647,
+      "Export": 6453,
+      "Import": 5527,
+      "Year": 2013
+   },
+   "ITA": {
+      "Country": "Italy",
+      "GDP": 1604599,
+      "Export": 463129,
+      "Import": 426888,
+      "Year": 2013
+   },
+   "LTU": {
+      "Country": "Lithuania",
+      "GDP": 35002,
+      "Export": 29388,
+      "Import": 28951,
+      "Year": 2013
+   },
+   "LUX": {
+      "Country": "Luxembourg",
+      "GDP": 46551,
+      "Export": 89441,
+      "Import": 74286,
+      "Year": 2013
+   },
+   "LVA": {
+      "Country": "Latvia",
+      "GDP": 22829,
+      "Export": 13767,
+      "Import": 14498,
+      "Year": 2013
+   },
+   "MLT": {
+      "Country": "Malta",
+      "GDP": 7631,
+      "Export": 12070,
+      "Import": 11555,
+      "Year": 2013
+   },
+   "NLD": {
+      "Country": "Netherlands",
+      "GDP": 652748,
+      "Export": 535320,
+      "Import": 465502,
+      "Year": 2013
+   },
+   "NOR": {
+      "Country": "Norway",
+      "GDP": 393397,
+      "Export": 154193,
+      "Import": 112153,
+      "Year": 2013
+   },
+   "POL": {
+      "Country": "Poland",
+      "GDP": 394721,
+      "Export": 182840,
+      "Import": 175151,
+      "Year": 2013
+   },
+   "PRT": {
+      "Country": "Portugal",
+      "GDP": 170269,
+      "Export": 67284,
+      "Import": 65573,
+      "Year": 2013
+   },
+   "ROU": {
+      "Country": "Romania",
+      "GDP": 144254,
+      "Export": 57338,
+      "Import": 58457,
+      "Year": 2013
+   },
+   "SRB": {
+      "Country": "Serbia",
+      "GDP": 34263,
+      "Export": 14117,
+      "Import": 17786,
+      "Year": 2013
+   },
+   "SVK": {
+      "Country": "Slovakia",
+      "GDP": 74170,
+      "Export": 69586,
+      "Import": 66446,
+      "Year": 2013
+   },
+   "SVN": {
+      "Country": "Slovenia",
+      "GDP": 35917,
+      "Export": 27005,
+      "Import": 24988,
+      "Year": 2013
+   },
+   "SWE": {
+      "Country": "Sweden",
+      "GDP": 435752,
+      "Export": 190862,
+      "Import": 171220,
+      "Year": 2013
+   }
+}

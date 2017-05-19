@@ -1,0 +1,30 @@
+<!--Joost Kooijman, 10760768-->
+
+<!DOCTYPE HTML>
+<html>
+
+<head>
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<script src="https://d3js.org/d3.v3.min.js" type="text/javascript" charset="utf-8"></script>
+    <script src="//cdnjs.cloudflare.com/ajax/libs/topojson/1.6.9/topojson.min.js" type="text/javascript"></script>
+    <script src="https://code.jquery.com/jquery-1.10.2.js"></script>
+    <script src="http://d3js.org/queue.v1.min.js"></script>
+	<script src="linkedviews.js" type="text/javascript"></script>
+    <script src="datamap.js" type="text/javascript"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+	<title>Linked views</title>
+</head>
+
+<body>
+  	<h2>GDP, Import and Export figures of European countries</h2>
+  	<p>Joost Kooijman, 10760768, <a HREF="http://appsso.eurostat.ec.europa.eu/nui/show.do?dataset=nama_10_gdp&lang=en/" target="_blank">Source</a></p> 
+    
+    <div id="map" style="float: left; width: 50%; height: 450px;"></div>
+    <div id="barchart" style="float: right; width: 50%; height: 450px;">     
+    	<select id="inds" class="form-control"></select>
+	</div>
+</body>
+
+</html>
+
