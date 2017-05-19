@@ -2,16 +2,16 @@
 
 // initialize colourscheme for map
 var colour = d3.scale.linear()
-    .range(['lightblue', '#003366']);
+    .range(['lightblue', '#003366'])
 
 // initialize variables for barchart
 var barVariables = ["Export", "Import"],
-    barData = [];
+    barData = []
 
 // initialize colours for barchart
 var barColours = d3.scale.ordinal()
     .domain(barVariables)
-    .range(["green", "blue"]);
+    .range(["green", "blue"])
 
 // set all data in queue
 queue()
@@ -19,88 +19,87 @@ queue()
     .defer(d3.json, "2013.json")
     .defer(d3.json, "2014.json")
     .defer(d3.json, "2015.json")
-    .awaitAll(onLoad);
+    .awaitAll(onLoad)
 
 // start function once data is loaded
 function onLoad(error, data) {
 
     // if there is an error alert user
     if (error){
-        alert(error);
+        alert(error)
     }
 
-
-    current = data[0];
-    countryCodes = Object.keys(current);  
-    selected = countryCodes[0];
+    current = data[0]
+    countryCodes = Object.keys(current)  
+    selected = countryCodes[0]
 
     // initialize constants for barchart
-    barWidth = 40;
-    barSpacing = 25;
-    transition = 150;
+    barWidth = 40
+    barSpacing = 25
+    transition = 150
 
     // function for changing the plots
     function changeYear(val) {
 
-        current = data[val];
-        colours = {};
-        gdp = [];
+        current = data[val]
+        colours = {}
+        gdp = []
 
         // add logged values of gdp to array
         $.each(countryCodes, function(i, val) {
-            gdp.push(Math.log(parseFloat(current[val].GDP)));
-        });
+            gdp.push(Math.log(parseFloat(current[val].GDP)))
+        })
 
         // initialize corresponding colourdomain
-        colour.domain([Math.min(...gdp), Math.max(...gdp)]);
+        colour.domain([Math.min(...gdp), Math.max(...gdp)])
 
         // create colours for map
         $.each(countryCodes, function(i, val) {
-            colours[val] = colour(gdp[i]);
-        });
+            colours[val] = colour(gdp[i])
+        })
 
         // draw new bars and update the maps colours
-        drawBars();
-        map.updateChoropleth(colours);
+        drawBars()
+        map.updateChoropleth(colours)
     }
 
     function drawBars() {
 
         // get data of selected country
-        var countryData = current[selected];
-        barData = [];
+        var countryData = current[selected]
+        barData = []
 
         // add all economic indicators to json format for easy use
-        for (var i = 0, n = barVariables.length; i < n; i++) {
+        for (var i = 0; i < barVariables.length; i++) {
             barData.push({
                 'indicator': barVariables[i],
                 'value': parseFloat(countryData[barVariables[i]])
-            });
-        };
+            })
+        }
 
         // initialize length of bars, called each time because domain differs
         var barLength = d3.scale.linear()
             .range([0, 70])
-            .domain([0, d3.max(barData, function(d) {return d.value} )]);
+            .domain([0, d3.max(barData, function(d) {return d.value} )])
 
         // transition all bars to new values
         bar.selectAll(".bar rect")
             .data(barData)
             .transition().duration(transition)
             .attr("width", function(d) {
-                return barLength(d.value) + "%";
-            });
+                return barLength(d.value) + "%"
+            })
 
         // add dynamic text to the left of bar containing economic indicator values
         bar.selectAll(".bartext")
             .data(barData)
             .transition().duration(transition)
             .attr("x", function(d) {
-                return ( barLength(d.value) + 0.5) + "%";
+                return ( barLength(d.value) + 0.5) + "%"
             })
             .text(function(d) {
-                return d.value;
-            });
+                return d.value
+            })
 
         // remove the old title
         d3.selectAll(".bartitle").remove()
@@ -114,16 +113,16 @@ function onLoad(error, data) {
             .attr("text-anchor", "beginning")  
             .style("font-size", "26px") 
             .style("text-decoration", "underline")
-            .text(countryData.Country);
+            .text(countryData.Country)
     }
 
     // initialize chart
     var chart = d3.select("#barchart").append("svg")
         .attr("width", window.innerWidth / 2)
-        .attr("height", window.innerHeight);
+        .attr("height", window.innerHeight)
 
     var bar = chart.append("g")
-        .attr("id", "bar");
+        .attr("id", "bar")
 
     // append bars without any x coordinate, will be filled in on drawBars call
     var barchart = bar.selectAll(".bar")
@@ -132,19 +131,19 @@ function onLoad(error, data) {
             .attr("transform", "translate(110, 400)")
             .attr("class", "bar")
             .append("rect")
-                .attr("fill", function(d) { return barColours(d); })
+                .attr("fill", function(d) { return barColours(d) })
                 .attr("height", barWidth)
                 .attr("y", function(d, i) {
-                    return -i * (barWidth + barSpacing) -  155;
-                });
+                    return -i * (barWidth + barSpacing) -  155
+                })
 
     // append text element which will be filled in on Drawbars call
     bar.selectAll(".bar").append("text")
         .data(barVariables)
         .attr("class", "bartext")
         .attr("y", function(d, i) {
-            return -i * (barWidth + barSpacing) + barWidth / 2 - 150;
-        });
+            return -i * (barWidth + barSpacing) + barWidth / 2 - 150
+        })
 
     // append non dynamic text containing econmic indicators
     bar.selectAll(".bar")
@@ -153,9 +152,9 @@ function onLoad(error, data) {
             .attr("class", "text")
             .attr("x", 10)
             .attr("y", function(d, i) {
-                return -i * (barWidth + barSpacing) + barWidth / 2 + -150;
+                return -i * (barWidth + barSpacing) + barWidth / 2 + -150
             })
-            .text(function(d) { return d + " (in Millions \u20AC)"; });
+            .text(function(d) { return d + " (in Millions \u20AC)" })
 
     // create the new map using Datamaps
     var map = new Datamap({
@@ -168,12 +167,12 @@ function onLoad(error, data) {
                 .center([13, 38.5])
                 .rotate([10, -15])
                 .scale(800)
-                .translate([element.offsetWidth / 2, element.offsetHeight / 2]);
+                .translate([element.offsetWidth / 2, element.offsetHeight / 2])
 
             var path = d3.geo.path()
-                .projection(projection);
+                .projection(projection)
 
-            return {path: path, projection: projection};
+            return {path: path, projection: projection}
         },
         fills: {
             defaultFill: "grey"
@@ -186,7 +185,7 @@ function onLoad(error, data) {
                 if ($.inArray(selected, countryCodes) != -1){
                 return  '<div class="hoverinfo"><strong>' + 
                         '<table class="table-popup" style="width:210px"><tr><td>Country:</td><td>'+ geography.properties.name +
-                        '</td></tr><tr><td>GDP (in Millions \u20AC):</td><td>'+ current[geography.properties.iso].GDP +'</td></tr></table>'+'</div>';
+                        '</td></tr><tr><td>GDP (in Millions \u20AC):</td><td>'+ current[geography.properties.iso].GDP +'</td></tr></table>'+'</div>'
                 }
             }    
         },
@@ -194,22 +193,22 @@ function onLoad(error, data) {
         // on click draw bars of clicked country if data exists
         done: function(datamap) {
             datamap.svg.selectAll('.datamaps-subunit').on('click', function(geography) {
-                selected = geography.properties.iso;
+                selected = geography.properties.iso
                 if ($.inArray(selected, countryCodes) != -1){
-                    drawBars();
+                    drawBars()
                 }
             })
         }
-    });
+    })
 
     // change the year to first year
-    val = 0;
-    changeYear(val);
+    val = 0
+    changeYear(val)
 
     // dynamically add dropdown values and years
     for (var i = 0; i < data.length; i++)
     {
-        var newOption = $('<option>');
+        var newOption = $('<option>')
         newOption.attr('value', i).text(data[i].AUT.Year)
         $('#inds').append(newOption)
     }
@@ -219,5 +218,5 @@ function onLoad(error, data) {
         .on("change", function () {
             var sect = document.getElementById("inds")
             var val = sect.options[sect.selectedIndex].value
-            changeYear(val); });
+            changeYear(val) })
 }
