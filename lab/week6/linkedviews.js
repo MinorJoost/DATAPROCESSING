@@ -41,6 +41,11 @@ function onLoad(error, data) {
     // function for changing the plots
     function changeYear(val) {
 
+        currentYear = parseInt(val) + 2012
+        titleString = "GDP, Import and Export figures of European countries in " + currentYear
+        d3.selectAll("h2")
+            .text(titleString)
+
         current = data[val]
         colours = {}
         gdp = []
@@ -61,6 +66,7 @@ function onLoad(error, data) {
         // draw new bars and update the maps colours
         drawBars()
         map.updateChoropleth(colours)
+        map.legend()
     }
 
     function drawBars() {
@@ -144,6 +150,7 @@ function onLoad(error, data) {
         .attr("y", function(d, i) {
             return -i * (barWidth + barSpacing) + barWidth / 2 - 150
         })
+        .style("font-size", "16px")
 
     // append non dynamic text containing econmic indicators
     bar.selectAll(".bar")
@@ -155,6 +162,9 @@ function onLoad(error, data) {
                 return -i * (barWidth + barSpacing) + barWidth / 2 + -150
             })
             .text(function(d) { return d + " (in Millions \u20AC)" })
+            .style("font-size", "20px")
+
+    buckets = ["#a3cfdf", "#75a2bc", "#608fad", "#32628b", "#1d4f7c"]
 
     // create the new map using Datamaps
     var map = new Datamap({
@@ -164,9 +174,9 @@ function onLoad(error, data) {
             var projection = d3.geo.equirectangular()
 
                 // make sure europe is in view
-                .center([13, 38.5])
-                .rotate([10, -15])
-                .scale(800)
+                .center([10, 44])
+                .rotate([0, -10])
+                .scale(700)
                 .translate([element.offsetWidth / 2, element.offsetHeight / 2])
 
             var path = d3.geo.path()
@@ -175,17 +185,28 @@ function onLoad(error, data) {
             return {path: path, projection: projection}
         },
         fills: {
-            defaultFill: "grey"
+            defaultFill: "grey",
+            "   GDP (in Millions \u20AC)&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp 10000": buckets[0],
+            "   &nbsp&nbsp50000": buckets[1],
+            "   &nbsp&nbsp100000": buckets[2],
+            "   &nbsp&nbsp500000": buckets[3],
+            "   &nbsp&nbsp1000000": buckets[4]
         },
+        legend: true,
         geographyConfig: {
             borderColor: '#000000',
 
             // add popup containing GDP
             popupTemplate: function(geography, data) {
-                if ($.inArray(selected, countryCodes) != -1){
+                if ($.inArray(geography.properties.iso, countryCodes) != -1){
                 return  '<div class="hoverinfo"><strong>' + 
                         '<table class="table-popup" style="width:210px"><tr><td>Country:</td><td>'+ geography.properties.name +
                         '</td></tr><tr><td>GDP (in Millions \u20AC):</td><td>'+ current[geography.properties.iso].GDP +'</td></tr></table>'+'</div>'
+                }
+                else if ($.inArray(geography.properties.iso, countryCodes) == -1){
+                return  '<div class="hoverinfo"><strong>' + 
+                        '<table class="table-popup"><tr><td>Country:&nbsp</td><td>'+ geography.properties.name + 
+                        '</td></tr><tr><td>&nbsp</td><td>'+ 'No Data Available' + '</td></tr></table>'+'</div>'
                 }
             }    
         },
@@ -204,7 +225,7 @@ function onLoad(error, data) {
     // change the year to first year
     val = 0
     changeYear(val)
-
+   
     // dynamically add dropdown values and years
     for (var i = 0; i < data.length; i++)
     {
