@@ -240,4 +240,5 @@ function onLoad(error, data) {
             var sect = document.getElementById("inds")
             var val = sect.options[sect.selectedIndex].value
             changeYear(val) })
+
 }

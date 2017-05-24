@@ -15,7 +15,14 @@
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
 	<title>Linked views</title>
 </head>
-
+<style>
+div.textcontainer{
+  width: 200px;
+  left: 400px;
+  top: 800px;
+  position: absolute;
+}
+</style>
 <body>
   	<h2></h2>
   	<p>Joost Kooijman, 10760768, <a HREF="http://appsso.eurostat.ec.europa.eu/nui/show.do?dataset=nama_10_gdp&lang=en/" target="_blank">Source</a></p> 
@@ -24,6 +31,13 @@
     <div id="barchart" style="float: right; width: 50%; height: 450px;">     
     	<select id="inds" class="form-control"></select>
 	</div>
+    <div id="textleft" class="text-primary" style ="width: 45%; position: absolute; top: 575px; left: 25px;">
+        <p> The map shows European countries and the colour represents the height of the countries GDP. The darker the blue the higher the GDP.
+            When you click on the country you get to see the exact GDP in millions of &euro;. When the user clicks on the country the bargraph to the right automatically updates its values. In the barchart you can see the countries import and export. These are useful economic measures to get an indication of the countries commerce. The dropdown menu can be used to change the year and get an insight on how these metrics change over time. When the fill is grey the corresponding country has no data. When the user clicks these countries the barchart will not update.</p>
+    </div>
+    <div id="textright" class="text-primary" style ="width: 45%; position: absolute; top: 575px; left: 735px;">
+        <p> The websites design is based on the idea of a dashboard. All information can be seen in one blink of an eye. The colourscale of the map is based on the logscale of the GDP. This visualization is based on human instinct meaning darker is more. The interaction between the map and barchart is by way of clicking on the country. This also works very naturally. The d3.maps has an easy way built in that has been utilised. A click on a country returns the GEO code of the country. When this code is in the data the barchart updates. The onhover can also be added quite easily in the same way. When the hover happens some HTML code is returned which contains the table which is shown to the user.</p>
+    </div>
 </body>
 
 </html>
