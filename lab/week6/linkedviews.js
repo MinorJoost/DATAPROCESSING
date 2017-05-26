@@ -41,6 +41,7 @@ function onLoad(error, data) {
     // function for changing the plots
     function changeYear(val) {
 
+        // dynamic title
         currentYear = parseInt(val) + 2012
         titleString = "GDP, Import and Export figures of European countries in " + currentYear
         d3.selectAll("h2")
@@ -63,7 +64,7 @@ function onLoad(error, data) {
             colours[val] = colour(gdp[i])
         })
 
-        // draw new bars and update the maps colours
+        // draw new bars and update the maps colours and legend
         drawBars()
         map.updateChoropleth(colours)
         map.legend()
@@ -110,7 +111,7 @@ function onLoad(error, data) {
         // remove the old title
         d3.selectAll(".bartitle").remove()
 
-        // create a new one
+        // create new title
         bar.append("text")
             .attr("class", "bartitle")
             .attr("transform", "translate(110,400)")
@@ -164,6 +165,7 @@ function onLoad(error, data) {
             .text(function(d) { return d + " (in Millions \u20AC)" })
             .style("font-size", "20px")
 
+    // colourbuckets for the legend
     buckets = ["#a3cfdf", "#75a2bc", "#608fad", "#32628b", "#1d4f7c"]
 
     // create the new map using Datamaps
@@ -184,6 +186,7 @@ function onLoad(error, data) {
 
             return {path: path, projection: projection}
         },
+        // add colors for legend
         fills: {
             defaultFill: "grey",
             "   GDP (in Millions \u20AC)&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp 10000": buckets[0],
@@ -196,7 +199,7 @@ function onLoad(error, data) {
         geographyConfig: {
             borderColor: '#000000',
 
-            // add popup containing GDP
+            // add popup containing GDP or missing data
             popupTemplate: function(geography, data) {
                 if ($.inArray(geography.properties.iso, countryCodes) != -1){
                 return  '<div class="hoverinfo"><strong>' + 
